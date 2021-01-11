@@ -1,0 +1,37 @@
+History
+~~~~~~~~~~~~~
+
+1969 ARPANET network was created that became the precursor of the internet
+
+In the 1970s, the transmission control protocol and internet protocol, otherwise known as TCP/IP, were created.
+
+As different networks adopted TCP/IP, the interconnected global network of networks that is today known as the internet was formed.
+
+Tim Berners-Lee invented the world wide web in 1989 
+
+A collection of advances in the early 2000s created a cluster of web applications that are often called “Web 2.0”
+
+
+Definitions
+~~~~~~~~~~~~~~~~
+
+The internet refers to the actual network of connected computing devices. 
+
+The world wide web is a collection of interlinked websites and other web resources.
+
+Browser is the window used into the internet
+
+A server is where a site that can be accessed through the internet is stored.
+
+HTTP = Hypertext Transfer Protocol
+
+HTML = Hypertext Markup Language
+
+URL = Uniform Reccourse Locator
+
+HTTP Status Codes
+Informational responses (100–199)
+Successful responses (200–299)
+Redirects (300–399)
+Client errors (400–499)
+Server errors (500–599)
