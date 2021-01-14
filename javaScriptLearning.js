@@ -16,13 +16,13 @@ comment */
 // switch (case scenario)
     switch(expression) {
         case x:
-        // code block
+            console.log(`it's ${x}`);
         break;
         case y:
-        // code block
+            console.log(`it's ${y}`);
         break;
         default:
-        // code block
+            console.log('what');
     }
 
 // ternaryRefactor:
@@ -125,7 +125,7 @@ function defaults(default='functions can have default parameters'){};
             ace: {
                 name: 'axist',
                 discipline: 'focus',
-                weapon: 'doubleStaff'
+                weapon: 'doubleStaffs'
             },
             king: {
                 name: 'darkener',
@@ -173,3 +173,28 @@ function defaults(default='functions can have default parameters'){};
             gender,
             email
         }
+
+//Interacting with html:
+    // basics
+        <script id="whatever" src="file.js"></script>
+        
+        document.body.innerHTML = '<h1>example</h1>'; 
+        document.querySelector('p');
+        document.getElementById('someId').innerHTML = 'example';
+        let blueStyle = document.querySelector('.blue');
+        blueStyle.style.backgroundColor = 'blue';
+        document.querySelector('.blue').style.fontFamily = 'Roboto';
+        let paragraph = document.createElement('p');
+        paragraph.id = 'info'; 
+        paragraph.innerHTML = 'The text inside the paragraph';
+        document.body.appendChild(paragraph);
+        document.body.removeChild(paragraph);
+        document.getElementById('sign').hidden = true;
+
+    // implementation
+        let element = document.querySelector("button");
+        function turnButtonRed (){
+            element.style.backgroundColor = "red";
+            element.style.color = "white";
+        }
+        element.onclick = turnButtonRed;
