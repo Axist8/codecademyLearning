@@ -198,3 +198,120 @@ function defaults(default='functions can have default parameters'){};
             element.style.color = "white";
         }
         element.onclick = turnButtonRed;
+
+        let eventTarget = document.getElementById('targetElement');
+        function eventHandlerFunction() {
+            // this block of code will run when click event happens
+        }
+        eventTarget.addEventListener('click', eventHandlerFunction);
+
+        eventTarget.onclick = eventHandlerFunction;
+        eventTarget.removeEventListener('click', eventHandlerFunction);
+
+        function eventHandlerFunction(event){
+            console.log(event.timeStamp);
+         }
+         eventTarget.addEventListener('click', eventHandlerFunction);
+
+// classes:
+    class HospitalEmployee {
+        constructor(name) {
+        this._name = name;
+        this._remainingVacationDays = 20;
+        }
+        
+        static generatePassword() {
+        const randomNumber = Math.floor(Math.random()*10001);
+        return randomNumber;
+        }
+    
+        get name() {
+        return this._name;
+        }
+        
+        get remainingVacationDays() {
+        return this._remainingVacationDays;
+        }
+        
+        takeVacationDays(daysOff) {
+        this._remainingVacationDays -= daysOff;
+        }
+    }
+    
+    class Nurse extends HospitalEmployee {
+        constructor(name, certifications) {
+        super(name);
+        this._certifications = certifications;
+        } 
+        
+        get certifications() {
+        return this._certifications;
+        }
+        
+        addCertification(newCertification) {
+        this.certifications.push(newCertification);
+        }
+    }
+    
+    const nurseOlynyk = new Nurse('Olynyk', ['Trauma','Pediatrics']);
+    nurseOlynyk.takeVacationDays(5);
+    nurseOlynyk.addCertification('Genetics');
+    
+// modules:
+    // .exports
+        let Menu = {};
+        Menu.specialty = "Roasted Beet Burger with Mint Sauce";
+        module.exports = Menu; 
+    
+    // module.exports
+        module.exports = {
+            specialty: "Roasted Beet Burger with Mint Sauce",
+            getSpecialty: function() {
+                return this.specialty;
+            } 
+        }; 
+
+    // require()
+        const Menu = require('./menu.js');
+        function placeOrder() {
+            console.log('My order is: ' + Menu.specialty);
+        }
+        placeOrder();
+
+    // export default
+        let Menu = {};
+        export default Menu;
+
+    // import
+        import Menu from './menu';
+
+    // named exports
+        let specialty = '';
+        function isVegetarian() {
+        }; 
+        function isLowSodium() {
+        }; 
+        export { specialty, isVegetarian };
+
+    // export named exports
+        export let specialty = '';
+        export function isVegetarian() {
+        }; 
+        function isLowSodium() {
+        }; 
+
+    // named imports
+        import { specialty, isVegetarian } from './menu';
+
+    // export as
+        let specialty = '';
+        let isVegetarian = function() {
+        }; 
+        let isLowSodium = function() {
+        }; 
+        export { specialty as chefsSpecial, isVegetarian as isVeg, isLowSodium };
+
+    // import as
+        import { chefsSpecial, isVeg } from './menu';
+
+    
