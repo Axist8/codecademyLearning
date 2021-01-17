@@ -314,4 +314,18 @@ function defaults(default='functions can have default parameters'){};
     // import as
         import { chefsSpecial, isVeg } from './menu';
 
+// errors:
+    console.log(Error('Your password is too weak.'));
+    console.log(new Error('Your password is too weak.'));
+
+    throw Error('Something wrong happened'); 
+    console.log('This will never run');
+
+    try {
+        throw Error('Danger Will Robinson!');
+    } catch (e) {
+        console.log(e);
+    }
+      // Prints: Danger Will Robinson! && will continue to run
+
     
