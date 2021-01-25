@@ -328,4 +328,135 @@ function defaults(default='functions can have default parameters'){};
     }
       // Prints: Danger Will Robinson! && will continue to run
 
-    
+// Asynchronous computing and Promises
+    // Promise
+    const executorFunction = (resolve, reject) => {
+        if (someCondition) {
+            resolve('I resolved!');
+        } else {
+            reject('I rejected!'); 
+        }
+    }
+    const myFirstPromise = new Promise(executorFunction);
+
+    // setTimeout
+    const delayedHello = () => {
+        console.log('Hi! This is an asynchronous greeting!');
+    };   
+    setTimeout(delayedHello, 2000);
+
+    const returnPromiseFunction = () => {
+        return new Promise((resolve, reject) => {
+          setTimeout(( ) => {resolve('I resolved!')}, 1000);
+        });
+    };       
+    const prom = returnPromiseFunction();
+
+    // .then
+    let prom = new Promise((resolve, reject) => {
+        let num = Math.random();
+        if (num < .5 ){
+          resolve('Yay!');
+        } else {
+          reject('Ohhh noooo!');
+        }
+    });   
+    const handleSuccess = (resolvedValue) => {
+        console.log(resolvedValue);
+    };   
+    const handleFailure = (rejectionReason) => {
+        console.log(rejectionReason);
+    };   
+    prom.then(handleSuccess, handleFailure);
+
+    // .catch
+    prom
+        .then((resolvedValue) => {
+          console.log(resolvedValue);
+        })
+        .catch((rejectionReason) => {
+          console.log(rejectionReason);
+        });
+
+    // chaining
+    firstPromiseFunction()
+        .then((firstResolveVal) => {
+          return secondPromiseFunction(firstResolveVal);
+        })
+        .then((secondResolveVal) => {
+          console.log(secondResolveVal);
+        });
+
+    // .all
+    let myPromises = Promise.all([returnsPromOne(), returnsPromTwo(), returnsPromThree()]);
+    myPromises
+        .then((arrayOfValues) => {
+            console.log(arrayOfValues);
+        })
+        .catch((rejectionReason) => {
+            console.log(rejectionReason);
+        });
+
+    // async
+    async function myFunc() {
+        // Function body here
+    };
+    const myFunc = async () => {
+        // Function body here
+    };  
+    myFunc();
+
+    // promise conversion to async
+    function withConstructor(num){
+        return new Promise((resolve, reject) => {
+            if (num === 0){
+                resolve('zero');
+            } else {
+                resolve('not zero');
+            }
+        })
+    }  
+    withConstructor(0)
+        .then((resolveValue) => {
+            console.log(` withConstructor(0) returned a promise which resolved to: ${resolveValue}.`);
+        })      
+    async function withAsync(num) {
+        if (num === 0){
+            return 'zero';
+        } else {
+            return 'not zero';
+        }
+    }
+    withAsync(100)
+        .then((resolveValue) => {
+            console.log(` withAsync(100) returned a promise which resolved to: ${resolveValue}.`);
+        })
+
+    // await
+        // The await keyword can only be used inside an async function. 
+    function myPromise = () => {
+        return new Promise(executorFunction);
+    }
+    async function asyncFuncExample(){
+        let resolvedValue = await myPromise();
+        console.log(resolvedValue);
+    }   
+    asyncFuncExample();
+
+    // promise chain refactored to async await chain
+    function nativePromiseVersion() {
+        returnsFirstPromise()
+        .then((firstValue) => {
+            console.log(firstValue);
+            return returnsSecondPromise(firstValue);
+        })
+       .then((secondValue) => {
+            console.log(secondValue);
+        });
+    }
+    async function asyncAwaitVersion() {
+        let firstValue = await returnsFirstPromise();
+        console.log(firstValue);
+        let secondValue = await returnsSecondPromise(firstValue);
+        console.log(secondValue);
+    }
