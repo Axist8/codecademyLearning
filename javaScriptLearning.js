@@ -460,3 +460,161 @@ function defaults(default='functions can have default parameters'){};
         let secondValue = await returnsSecondPromise(firstValue);
         console.log(secondValue);
     }
+
+    // try catch in async functions
+    async function usingTryCatch() {
+        try {
+          let resolveValue = await asyncFunction('thing that will fail');
+          let secondValue = await secondAsyncFunction(resolveValue);
+        } catch (err) {
+          // Catches any errors in the try block
+          console.log(err);
+        }
+    }
+
+    // concurrent async functions
+    async function waiting() {
+        const firstValue = await firstAsyncThing();
+        const secondValue = await secondAsyncThing();
+        console.log(firstValue, secondValue);
+    }    
+    async function concurrent() {
+        const firstPromise = firstAsyncThing();
+        const secondPromise = secondAsyncThing();
+        console.log(await firstPromise, await secondPromise);
+    }
+
+    // await promise.all
+    async function asyncPromAll() {
+        const resultArray = await Promise.all([asyncTask1(), asyncTask2(), asyncTask3(), asyncTask4()]);
+        for (let i = 0; i<resultArray.length; i++){
+          console.log(resultArray[i]); 
+        }
+    }
+
+/* JavaScript libraries — Usually one or more JavaScript files containing 
+custom functions that you can attach to your web page to speed up or enable 
+writing common functionality. Examples include jQuery, Mootools and React.
+JavaScript frameworks — The next step up from libraries, JavaScript frameworks 
+(e.g. Angular and Ember) tend to be packages of HTML, CSS, JavaScript, and other 
+technologies that you install and then use to write an entire web application from scratch. 
+The key difference between a library and a framework is “Inversion of Control”. 
+When calling a method from a library, the developer is in control. With a framework, 
+the control is inverted: the framework calls the developer's code. */
+
+// JSON - APIs - Requests
+    // converting JSON data into JavaScript JSON.parse
+    const jsonData = '{ "book": { "name": "JSON Primer", "price": 29.99, "inStock": true, "rating": null } }';
+    const jsObject = JSON.parse(jsonData);
+        // converts to object
+
+    // converting JavaScript into JSON data JSON.stringify
+    const jsObject = { book: 'JSON Primer', price: 29.99, inStock: true, rating: null };
+    const jsonData = JSON.stringify(jsObject);
+    
+    // Boilerplate
+        // GET AJAX request using an XMLHttpRequest object
+        const xhr = new XMLHttpRequest();
+        const url = 'https://api-to-call.com/endpoint';
+        xhr.responseType = 'json';
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                return xhr.response;
+            }
+        }
+        xhr.open('GET', url);
+        xhr.send();
+
+        // POST AJAX request using an XMLHttpRequest object
+        const xhr = new XMLHttpRequest();
+        const url = 'https://api-to-call.com/endpoint';
+        const data = JSON.stringify({id: '200'});
+        xhr.responseType = 'json';
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                return xhr.response;
+            }
+        }
+        xhr.open('POST', url);
+        xhr.send(data);
+
+        // .fetch GET
+        fetch('https://api-to-call.com/endpoint').then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error('Request failed!');
+        }, networkError => console.log(networkError.message))
+        .then(jsonResponse => jsonResponse);
+
+        // .fetch POST
+        fetch('https://api-to-call.com/endpoint', {
+            method: 'POST',
+            body: JSON.stringify({id: '200'})
+        }).then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error('Request failed!');
+            }, networkError => console.log(networkError.message))
+        .then(jsonResponse => {
+            return jsonResponse
+        });
+
+        // async GET
+        const getData = async () => {
+            try {
+              const response = await fetch('https://api-to-call.com/endpoint');
+              if (response.ok) {
+                const jsonResponse = await response.json();
+                return jsonResponse;
+              }
+              throw new Error('Request failed!');
+            } catch (error) {
+              console.log(error);
+            }
+        };
+
+        // async POST
+        const getData = async () => {
+            try {
+              const response = await fetch('https://api-to-call.com/endpoint', {
+                method: 'POST',
+                body: JSON.stringify({id: 200})
+              });
+              if (response.ok) {
+                const jsonResponse = await response.json();
+                return jsonResponse;
+              }
+              throw new Error('Request failed!');
+            } catch (error) {
+              console.log(error);
+            }
+        }
+
+// destructuring 
+    // arrays
+    let cars = ['ferrari', 'tesla', 'cadillac'];
+    let [car1, car2, car3] = cars;
+    console.log(car1, car2, car3); // Prints: ferrari tesla cadillac
+
+    // object property assignment
+    let destinations = { x: 'LA', y: 'NYC', z: 'MIA' };
+    let { x, y, z } = destinations;
+    console.log(x, y, z); // Prints LA NYC MIA
+
+    // function parameters
+    let truck = {
+        model: '1977 Mustang convertible',
+        maker: 'Ford',
+        city: 'Detroit',
+        year: '1977',
+        convertible: true
+    };   
+    const printCarInfo = ({model, maker, city}) => {
+        console.log(`The ${model}, or ${maker}, is in the city ${city}.`);
+    };   
+    printCarInfo(truck);
+      // Prints: The 1977 Mustang convertible, or Ford, is in the city Detroit.
+
+    
