@@ -120,7 +120,7 @@ function defaults(default='functions can have default parameters'){};
             },
         }
         zombie.eatBrain();
-    // loops
+    // for in loop
         const ranks = {
             ace: {
                 name: 'axist',
@@ -143,10 +143,10 @@ function defaults(default='functions can have default parameters'){};
                 weapon: 'strength'
             }
         }
-        // for in
         for (let rank in ranks) {
             console.log(`The ${rank}, ${ranks[rank].name}, has come with ${ranks[rank].discipline} weilding their ${ranks[rank].weapon}!`)
         }
+
     // getter setter
         const bigObject = {
             _name: 'biggie',
