@@ -282,3 +282,169 @@ class Crazy extends React.Component {
             document.getElementById('app')
         );
 
+    // pass an event handler as a prop
+        // Button.js
+        import React from 'react';
+        export class Button extends React.Component {
+            render() {
+                return (
+                    <button onClick={this.props.onClick}>
+                        Click me!
+                    </button>
+                );
+            }
+        }
+        // Talker.js 
+        import React from 'react';
+        import ReactDOM from 'react-dom';
+        import { Button } from './Button';
+        class Talker extends React.Component {
+            handleClick() {
+                let speech = '';
+                for (let i = 0; i < 10000; i++) {
+                    speech += 'blah ';
+                }
+                alert(speech);
+            }
+            render() {
+                return <Button onClick={this.handleClick} />;
+            }
+        }
+        ReactDOM.render(
+            <Talker />,
+            document.getElementById('app')
+        );
+
+    // this.props.children
+        // List.js
+        import React from 'react';
+        export class List extends React.Component {
+            render() {
+                let titleText = `Favorite ${this.props.type}`;
+                if (this.props.children instanceof Array) {
+                    titleText += 's';
+                }
+                return (
+                    <div>
+                        <h1>{titleText}</h1>
+                        <ul>{this.props.children}</ul>
+                    </div>
+                );
+            }
+        }
+        // App.js
+        import React from 'react';
+        import ReactDOM from 'react-dom';
+        import { List } from './List';
+        class App extends React.Component {
+            render() {
+                return (
+                    <div>
+                        <List type='Living Musician'>
+                            <li>Sachiko M</li>
+                            <li>Harvey Sid Fisher</li>
+                        </List>
+                        <List type='Living Cat Musician'>
+                            <li>Nora the Piano Cat</li>
+                        </List>
+                    </div>
+                );
+            }
+        }
+        ReactDOM.render(
+            <App />, 
+            document.getElementById('app')
+        );
+
+    // default props
+    import React from 'react';
+    import ReactDOM from 'react-dom';
+    class Button extends React.Component {
+        render() {
+            return (
+                <button>
+                {this.props.text}
+                </button>
+            );
+        }
+    }
+    Button.defaultProps = { text: 'I am a button'}
+    ReactDOM.render(
+        <Button text="" />, 
+        document.getElementById('app')
+    );
+
+// state
+    // defining state / constructor && props
+    class Example extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = { mood: 'decent' };
+        }
+    }
+
+    //  accessing state
+    render() {
+        return (
+          <h1>
+            I'm feeling {this.state.mood}!
+          </h1>
+        );
+      }
+    }
+
+    // changing state with this.setState()
+    class Example extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state = {
+                mood:   'great',
+                hungry: false
+            };
+        }
+    }
+    this.setState({ hungry: true });
+        // this.setState automatically rerenders
+
+    // this.x = this.x.bind(this)
+    class Example extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = { weather: 'sunny' };
+          this.makeSomeFog = this.makeSomeFog.bind(this);
+        }
+       
+        makeSomeFog() {
+          this.setState({
+            weather: 'foggy'
+          });
+        }
+    }
+
+    // stateful inheretence
+        // Parent.js (stateful)
+        import React from 'react';
+        import ReactDOM from 'react-dom';
+        import { Child } from './Child';
+
+        class Parent extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = { name: 'Frarthur' };
+            }
+            render() {
+                return <Child name={this.state.name} />;
+            }
+        }
+        ReactDOM.render(<Parent />, document.getElementById('app'));
+
+        // Child.js (stateless)
+        import React from 'react';
+
+        export class Child extends React.Component {
+            render() {
+                return <h1>Hey, my name is {this.props.name}!</h1>;
+            }
+        }
+
+    // 
