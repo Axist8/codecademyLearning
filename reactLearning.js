@@ -447,4 +447,119 @@ class Crazy extends React.Component {
             }
         }
 
-    // 
+    // Updating parent state from child
+        // Parent
+        import React from 'react';
+        import ReactDOM from 'react-dom';
+        import { ChildClass } from './ChildClass';
+        class ParentClass extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = { totalClicks: 0 };
+                this.handleClick = this.handleClick.bind(this);
+            }
+            handleClick() {
+                const total = this.state.totalClicks;
+                // calling handleClick will 
+                // result in a state change:
+                this.setState(
+                    { totalClicks: total + 1 }
+                );
+            }
+            // The stateful component class passes down
+            // handleClick to a stateless component class:
+            render() {
+                return (
+                    <ChildClass onClick={this.handleClick} />
+                );
+            }
+        }
+
+        // Child
+        import React from 'react';
+        import ReactDOM from 'react-dom';
+        export class ChildClass extends React.Component {
+            render() {
+                return (
+                    // The stateless component class uses
+                    // the passed-down handleClick function,
+                    // accessed here as this.props.onClick,
+                    // as an event handler:
+                    <button onClick={this.props.onClick}>
+                        Click Me!
+                    </button>
+                );
+            }
+        }
+
+    // Siblings
+        // Parent
+        import React from 'react';
+        import ReactDOM from 'react-dom';
+        import { Child } from './Child';
+        import { Sibling } from './Sibling';
+        class Parent extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = { name: 'Frarthur' };
+                this.changeName = this.changeName.bind(this);
+            }
+            changeName(newName) {
+                this.setState({
+                    name: newName
+                });
+            }
+            render() {
+                return (
+                    <div>
+                        <Child onChange={this.changeName} />
+                        <Sibling name={this.state.name} />
+                    </div>
+                );
+            }
+        });
+        ReactDOM.render(
+            <Parent />,
+            document.getElementById('app')
+        );
+
+        // Child
+        import React from 'react';
+        export class Child extends React.Component {
+            constructor(props) {
+                super(props);
+                this.handleChange = this.handleChange.bind(this);
+            }
+            handleChange(e) {
+                const name = e.target.value;
+                this.props.onChange(name);
+            }
+            render() {
+                return (
+                    <div>
+                        <select
+                        id="great-names"
+                        onChange={this.handleChange}>
+                            <option value="Frarthur">Frarthur</option>
+                            <option value="Gromulus">Gromulus</option>
+                            <option value="Thinkpiece">Thinkpiece</option>
+                        </select>
+                    </div>
+                );
+            }
+        }
+
+        // Sibling
+        import React from 'react';
+        export class Sibling extends React.Component {
+            render() {
+                const name = this.props.name;
+                return (
+                    <div>
+                        <h1>Hey, my name is {name}!</h1>
+                        <h2>Don't you think {name} is the prettiest name ever?</h2>
+                        <h2>Sure am glad that my parents picked {name}!</h2>
+                    </div>
+                );
+            }
+        }
