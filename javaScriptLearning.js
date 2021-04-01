@@ -133,7 +133,7 @@ function defaults(default='functions can have default parameters'){};
                 weapon: 'sword'
             },
             queen: {
-                name: 'xu',
+                name: 'noxia',
                 discipline: 'dominion',
                 weapon: 'magus'
             },
@@ -216,40 +216,40 @@ function defaults(default='functions can have default parameters'){};
 // classes:
     class HospitalEmployee {
         constructor(name) {
-        this._name = name;
-        this._remainingVacationDays = 20;
+            this._name = name;
+            this._remainingVacationDays = 20;
         }
         
         static generatePassword() {
-        const randomNumber = Math.floor(Math.random()*10001);
-        return randomNumber;
+            const randomNumber = Math.floor(Math.random()*10001);
+            return randomNumber;
         }
     
         get name() {
-        return this._name;
+            return this._name;
         }
         
         get remainingVacationDays() {
-        return this._remainingVacationDays;
+            return this._remainingVacationDays;
         }
         
         takeVacationDays(daysOff) {
-        this._remainingVacationDays -= daysOff;
+            this._remainingVacationDays -= daysOff;
         }
     }
     
     class Nurse extends HospitalEmployee {
         constructor(name, certifications) {
-        super(name);
-        this._certifications = certifications;
+            super(name);
+            this._certifications = certifications;
         } 
         
         get certifications() {
-        return this._certifications;
+            return this._certifications;
         }
         
         addCertification(newCertification) {
-        this.certifications.push(newCertification);
+            this.certifications.push(newCertification);
         }
     }
     
@@ -617,4 +617,34 @@ the control is inverted: the framework calls the developer's code. */
     printCarInfo(truck);
       // Prints: The 1977 Mustang convertible, or Ford, is in the city Detroit.
 
-    
+// for.. of loop
+    // typical for loop
+    const hobbies = ['singing', 'eating', 'quidditch', 'writing'];
+    for (let i = 0; i < hobbies.length; i++) {
+        console.log(`I enjoy ${hobbies[i]}.`);
+    }
+    // for.. of
+    for (const hobby of hobbies) {
+        console.log(`I enjoy ${hobby}.`);
+    }
+    // use on strings
+    const username = 'joe';
+    for (const char of username) {
+        console.log(char);
+    }
+    // break
+    const strangeBirds = ['Shoebill', 'Cockatrice', 'Basan', 'Terrorbird','Parotia','Kakapo'];
+    for (const bird of strangeBirds) {
+        if (bird === 'Basan'){ 
+            break; 
+        }
+        console.log(bird);
+    }
+    // continue
+    const strangeBirds = ['Shoebill', 'Cockatrice', 'Basan', 'Cow', 'Terrorbird', 'Parotia', 'Kakapo'];
+    for (const bird of strangeBirds) {
+        if  (bird === 'Cow'){
+            continue;
+        }
+        console.log(bird);
+    }
