@@ -139,10 +139,10 @@ class IceCreamGuy extends React.Component {
     }
 }
 
-// events
+// events & handlers
 class MyClass extends React.Component {
-    myFunc() {
-      alert('Stop it.  Stop hovering.');
+    myFunc() 
+      alert('Stop it. Stop hovering.');
     }
    
     render() {
@@ -185,7 +185,7 @@ class Crazy extends React.Component {
       }
 
 // props
-    // .this props
+    // this.props
     class PropsDisplayer extends React.Component {
         render() {
             const stringProps = JSON.stringify(this.props);
@@ -197,7 +197,7 @@ class Crazy extends React.Component {
             );
         }
     }
-    ReactDOM.render(<PropsDisplayer myProp='Hello' />, document.getElementById('app'));
+    ReactDOM.render(<PropsDisplayer myProp='Hello werld' />, document.getElementById('app'));
 
     // props examples
     <Greeting name="Frarthur" town="Flundon" age={2} haunted={false} /> // non strings are kept in curly braces
@@ -229,13 +229,7 @@ class Crazy extends React.Component {
             render() {
                 return (
                     <div>
-                    <h1>
-                        Hullo and, "Welcome to The Newzz," "On Line!"
-                    </h1>
-                    <Greeting name='Axist' />
-                    <article>
-                        Latest newzz:  where is my phone?
-                    </article>
+                        <Greeting name='Axist' />
                     </div>
                 );
             }
@@ -246,7 +240,7 @@ class Crazy extends React.Component {
         );
 
     // Rendering different things based on props
-        // Welcome.js
+        // Greeting.js
         import React from 'react';
         import ReactDOM from 'react-dom';
         export class Greeting extends React.Component {
@@ -381,7 +375,6 @@ class Crazy extends React.Component {
           super(props);
           this.state = { mood: 'decent' };
         }
-    }
 
     //  accessing state
     render() {
@@ -390,8 +383,7 @@ class Crazy extends React.Component {
             I'm feeling {this.state.mood}!
           </h1>
         );
-      }
-    }
+    }}
 
     // changing state with this.setState()
     class Example extends React.Component {
@@ -517,7 +509,7 @@ class Crazy extends React.Component {
                     </div>
                 );
             }
-        });
+        };
         ReactDOM.render(
             <Parent />,
             document.getElementById('app')
@@ -691,3 +683,4 @@ class Crazy extends React.Component {
             this.startInterval();
         }
     }
+
