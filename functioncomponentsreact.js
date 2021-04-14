@@ -328,3 +328,304 @@ export default function PageTitle() {
     </div>
   );
 }
+
+// Redux 
+const reducer = (state = initialState, action) => {
+  switch (action.type) {
+    case 'songs/addSong': {
+      return [ ...state, action.payload ];
+    }
+    case 'songs/removeSong': {
+      return state.filter(song => song !== action.payload);
+    }
+    case 'songs/removeAll': {
+      return [];
+    }
+    default: {
+      return state;
+    }
+  }
+}
+
+const initialState = [ 'Take Five', 'Claire de Lune', 'Respect' ];
+
+const addNewSong = {
+  type: 'songs/addSong',
+  payload: 'Halo'
+};
+
+const removeSong = {
+  type: 'songs/removeSong',
+  payload: 'Take Five'
+};
+
+const removeAll = {
+  type: 'songs/removeAll'
+}
+
+// mutable
+  // mutates nono
+  const mutableUpdater = (obj) => {
+    obj.completed = !obj.completed;
+    return obj;
+  }
+   
+  const taskState = { text: 'do dishes', completed: false };
+  const updatedTask = mutableUpdater(taskState);
+  console.log(updatedTask); 
+  // Prints { text: 'do dishes', completed: true };
+   
+  console.log(taskState); 
+  // Prints { text: 'do dishes', completed: true };
+
+  // immutable updates yesyes
+  const immutableUpdater = (obj) => {
+    return {
+      ...obj,
+      completed: !obj.completed
+    }
+  }
+   
+  const task = { text: 'iron clothes', completed: false };
+  const updatedTask = immutableUpdater(task);
+  console.log(updatedTask); 
+  // Prints { text: 'iron clothes', completed: true };
+   
+  console.log(task); 
+  // Prints { text: 'iron clothes', completed: false };
+
+// pure 
+  // impure nono
+  const addItemToList = (list) => {
+    let item;
+    fetch('https://anything.com/endpoint')
+      .then(response => {
+        if (!response.ok) {
+          item = {};
+        }
+   
+        item = response.json();
+     });
+   
+     return [...list, item];  
+  };
+
+  // pure yesyes
+  let item;
+  fetch('https://anything.com/endpoint')
+    .then(response => {
+      if (!response.ok) {
+        item = {};
+      }
+ 
+      item = response.json();
+   });
+ 
+  const addItemToList = (list, item) => {
+    return [...list, item];
+  };
+
+  // example 1
+  const globalSong = 'We are the World';
+
+const playlistReducer = (state = [], action) => {
+ switch (action.type) {
+   case 'songs/addGlobalSong': {
+     return [...state, action.payload];
+   }
+   default:
+     return state;
+ }
+}
+ 
+const state = [ 'Take Five', 'Claire de Lune', 'Respect' ];
+const addAction = { type: 'songs/addGlobalSong', payload: 'We are the World' };
+const newState = playlistReducer(state, addAction);
+
+// example 2
+const todoReducer = (state = [], action) => {
+  switch (action.type) {
+    case 'todos/addTodo': {
+      return [...state, action.payload];
+    }
+    case 'todos/removeAll': {
+      return [];
+    }
+    default: {
+      return state;
+    }
+  }
+ }
+ 
+ const state = [ 'Print trail map', 'Pack snacks', 'Summit the mountain' ];
+ const addTodoAction = { type: 'todos/addTodo', payload: 'Descend' };
+ const newState = todoReducer(state, addTodoAction);
+
+ // example 3
+ const initialState = [0, 1, 2];
+
+const reducer = (state = initialState, action) => {
+ switch (action.type) {
+   case 'numbers/addRandom': {
+     return [...state, action.payload];
+   }
+   default: {
+     return state;
+   }
+ }
+}
+ 
+const randomAction = { type: 'numbers/addRandom', payload: Math.random() };
+const newState = reducer(undefined, randomAction);
+
+// createStore, action creators, listener, subscribe, unsubscribe
+import { createStore } from 'redux';
+
+const increment = () => {
+  return { type: 'increment' }
+}
+
+const decrement = () => {
+  return { type: 'decrement' }
+}
+
+const initialState = 0;
+const countReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case 'increment':
+      return state + 1;
+    case 'decrement':
+      return state - 1;
+    default:
+      return state;
+  }
+}
+
+const store = createStore(countReducer);
+
+const printCountStatus = () => {
+  console.log(`The count is ${store.getState()}`);
+};
+store.subscribe(printCountStatus);
+const unsubscribe = store.subscribe(printCountStatus);
+
+store.dispatch(decrement());
+store.dispatch(increment());
+unsubscribe();
+store.dispatch(increment());
+
+// example
+  import { createStore } from 'redux';
+  // Action Creators
+  function increment() { 
+    return {type: 'increment'}
+  }
+
+  function decrement() { 
+    return {type: 'decrement'}
+  }
+
+  // Reducer / Store
+  const initialState = 0;
+  const countReducer = (state = initialState, action) => {
+    switch (action.type) {
+      case 'increment':
+        return state + 1; 
+      case 'decrement':
+        return state - 1; 
+      default:
+        return state;
+    }
+  };  
+  const store = createStore(countReducer);
+
+  // HTML Elements
+  const counterElement = document.getElementById('counter');
+  const incrementer = document.getElementById('incrementer');
+  const decrementer = document.getElementById('decrementer');
+
+  // Store State Change Listener
+  const render = () => {
+    counterElement.innerHTML = store.getState();
+  }
+  render();
+  store.subscribe(render);
+
+  // DOM Event Handlers
+  const incrementerClicked = () => {
+    store.dispatch(increment());
+  }
+  incrementer.addEventListener('click', incrementerClicked);
+  
+  const decrementerClicked = () => {
+    store.dispatch(decrement());
+  }
+  decrementer.addEventListener('click', decrementerClicked);
+
+// example 2
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { createStore } from 'redux';
+
+// REDUX CODE
+///////////////////////////////////
+
+const increment = () => {
+  return {type: 'increment'} 
+}
+
+const decrement = () => { 
+  return {type: 'decrement'}
+}
+
+const initialState = 0;
+const counterReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case 'increment':
+      return state + 1;
+    case 'decrement':
+      return state - 1;
+    default:
+      return state; 
+  }
+} 
+
+const store = createStore(counterReducer);
+
+// REACT CODE
+///////////////////////////////////
+
+const render = () => {
+  ReactDOM.render(
+    <CounterApp 
+      state={store.getState()}
+    />,
+    document.getElementById('root')
+  )
+}
+render();
+
+
+// Render once with the initial state.
+// Subscribe render to changes to the store's state.
+
+function CounterApp(props) {
+  const state = props.state;
+  const onIncrementButtonClicked = () => {
+    store.dispatch(increment());
+  }
+ 
+  const onDecrementButtonClicked = () => {
+    store.dispatch(decrement());
+  }
+  
+  return (   
+    <div id='counter-app'>
+      <h1> {state} </h1>
+      <button onClick={onIncrementButtonClicked}>+</button> 
+      <button onClick={onDecrementButtonClicked}>-</button>
+    </div>
+  )
+}
+
+store.subscribe(render);      
