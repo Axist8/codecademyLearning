@@ -248,14 +248,14 @@ import { get } from './mockBackend/fetch';
 
 export default function SocialNetwork() {
   const [menu, setMenu] = useState(null);
-    useEffect(() => {
+  useEffect(() => {
     get('/menu').then(response => {
       setMenu(response.data);
     });
   }, []);
 
   const [newsFeed, setNewsFeed] = useState(null);
-    useEffect(() => {
+  useEffect(() => {
     get('/news-feed').then(response => {
       setNewsFeed(response.data);
     });
@@ -629,3 +629,179 @@ function CounterApp(props) {
 }
 
 store.subscribe(render);      
+
+    // *screams* REDUXXXXXX
+
+// Import from redux here.
+import { createStore, combineReducers } from 'redux';
+import allRecipesData from './data.js';
+
+// Action Creators
+////////////////////////////////////////
+
+const addRecipe = (recipe) => {
+  return { 
+    type: 'favoriteRecipes/addRecipe', 
+    payload: recipe 
+  };
+}
+
+const removeRecipe = (recipe) => {
+  return { 
+    type: 'favoriteRecipes/removeRecipe', 
+    payload: recipe 
+  };
+}
+
+const setSearchTerm = (term) => {
+  return {
+    type: 'searchTerm/setSearchTerm',
+    payload: term
+  }
+}
+
+const clearSearchTerm = () => {
+  return {
+    type: 'searchTerm/clearSearchTerm'
+  }; 
+}
+
+const loadData = () => {
+  return { 
+    type: 'allRecipes/loadData', 
+    payload: allRecipeData
+  };
+}
+
+// Reducers
+////////////////////////////////////////
+
+const initialAllRecipes = [];
+const allRecipesReducer = (allRecipes = initialAllRecipes, action) => {
+  switch(action.type) {
+    case 'allRecipes/loadData': 
+      return action.payload
+    default:
+      return allRecipes;
+  }
+}
+
+const initialSearchTerm = '';
+const searchTermReducer = (searchTerm = initialSearchTerm, action) => {
+  switch(action.type) {
+    case 'searchTerm/setSearchTerm':
+      return action.payload
+    case 'searchTerm/clearSearchTerm':
+      return ''
+    default: 
+      return searchTerm;
+  }
+}
+
+const initialFavoriteRecipes = [];
+const favoriteRecipesReducer = (favoriteRecipes = initialFavoriteRecipes, action) => {
+  switch(action.type) {
+    case 'favoriteRecipes/addRecipe':
+      return [...favoriteRecipes, action.payload]
+    case 'favoriteRecipes/removeRecipe':
+      return favoriteRecipes.filter(recipe => {
+        return recipe.id !== action.payload.id
+      });
+    default:
+      return favoriteRecipes;
+  }
+}
+
+// Create your `rootReducer` here using combineReducers().
+const reducers = {
+  allRecipes: allRecipesReducer,
+  searchTerm: searchTermReducer,
+  favoriteRecipes: favoriteRecipesReducer
+};
+const rootReducer = combineReducers(reducers);
+const store = createStore(rootReducer);
+
+
+    // split it up!
+
+
+// store.js
+import { createStore, combineReducers } from 'redux';
+import { favoriteRecipesReducer } from '../features/favoriteRecipes/favoriteRecipesSlice.js';
+import { searchTermReducer } from '../features/searchTerm/searchTermSlice.js';
+import { allRecipesReducer } from '../features/allRecipes/allRecipesSlice.js';
+
+export const store = createStore(combineReducers({
+  favoriteRecipes: favoriteRecipesReducer,
+  searchTerm: searchTermReducer,
+  allRecipes: allRecipesReducer
+}));
+
+// app.js
+
+import React from 'react';
+
+import { AllRecipes } from '../features/allRecipes/AllRecipes.js';
+import { SearchTerm } from '../features/searchTerm/SearchTerm.js';
+
+export function App(props) {
+  const {state, dispatch} = props;
+
+  const visibleAllRecipes = getFilteredRecipes(state.allRecipes, state.searchTerm);
+  const visibleFavoriteRecipes = getFilteredRecipes(state.favoriteRecipes, state.searchTerm);
+
+  return (
+    <main>
+      <section>
+        <SearchTerm
+          searchTerm={state.searchTerm}
+          dispatch={dispatch}
+        />
+      </section>
+      <section>
+        <h2>Favorite Recipes</h2>
+        
+      </section>
+      <hr />
+      <section>
+        <h2>All Recipes</h2>
+        <AllRecipes
+          allRecipes={visibleAllRecipes} 
+          dispatch={dispatch}
+        />
+      </section>
+    </main>
+  )
+}
+
+/* Utility Helpers */
+
+function getFilteredRecipes(recipes, searchTerm) {
+  return recipes.filter(recipe => recipe.name.toLowerCase().includes(searchTerm.toLowerCase()));
+}
+
+// index.js
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+import { App } from './app/App.js';
+import { store } from './app/store';
+
+
+const render = () => {
+  // Pass `state` and `dispatch` props to <App />
+  ReactDOM.render(
+    <App 
+      state={store.getState()}
+      dispatch={store.dispatch}
+    />,
+    document.getElementById('root')
+  )
+}
+render();
+// Subscribe render to changes to the `store`
+store.subscribe(render);
+
+
+  // COMPLETE
+
